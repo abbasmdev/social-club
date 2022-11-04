@@ -5,17 +5,29 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
 
+
 export const authOptions: NextAuthOptions = {
-
+  pages: {
+    signIn: "/auth",
+    signOut: "/auth"
+  },
+  session: {
+    strategy: "jwt"
+  },
   callbacks: {
-    session({ session, user, }) {
+    jwt({ token, user }) {
+      token.userId = user?.id
+      return token
+    },
 
-      if (session.user) {
-        session.user.id = user.id;
+    session({ session, user, token }) {
+      if (session.user && token.userId) {
+        session.user.id = token.userId;
       }
       return session;
     },
   },
+
 
   adapter: PrismaAdapter(prisma),
   providers: [
