@@ -1,28 +1,42 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
 
+
 export const authOptions: NextAuthOptions = {
-
+  pages: {
+    signIn: "/auth",
+    signOut: "/auth"
+  },
+  session: {
+    strategy: "jwt"
+  },
   callbacks: {
-    session({ session, user, }) {
+    jwt({ token, user }) {
 
-      if (session.user) {
-        session.user.id = user.id;
+      token.userId = user?.id
+      return token
+    },
+
+    session({ session, token }) {
+
+
+      if (session.user && token.userId) {
+        session.user.id = token.userId;
       }
       return session;
     },
   },
 
+
   adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
-
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
 };
