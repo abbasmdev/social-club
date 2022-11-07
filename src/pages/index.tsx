@@ -1,8 +1,10 @@
 import { type GetServerSideProps, type NextPage } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
 
 const Home: NextPage = () => {
+  const { data: session } = useSession();
   return (
     <>
       <Head>
@@ -11,7 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen items-center justify-center">
-        <h1 className="text-2xl">Hi 👋</h1>
+        <h1 className="text-2xl">Hi {session?.user?.email}👋</h1>
       </main>
     </>
   );
