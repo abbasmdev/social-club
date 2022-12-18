@@ -1,12 +1,12 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import GoogleIcon from "assets/svgs/btn_google.svg";
+import DiscordIcon from "assets/svgs/discord-mark-blue.svg";
 import React from "react";
 
 const Auth = () => {
   const router = useRouter();
   async function signInWithDiscord() {
-    signIn("google", {
+    signIn("discord", {
       callbackUrl: (router.query.callbackUrl as string) || "/",
     });
   }
@@ -17,10 +17,10 @@ const Auth = () => {
 
         <button
           onClick={signInWithDiscord}
-          className="mx-1 flex items-center gap-1 rounded-md p-1 px-2 shadow-md  active:shadow-sm"
+          className="mx-1 flex items-center gap-2 rounded-md p-2 px-3 shadow-md  active:shadow-sm"
         >
-          <GoogleIcon />
-          Sign in with Google
+          <DiscordIcon width={30} />
+          Login with Discord
         </button>
       </div>
     </main>
