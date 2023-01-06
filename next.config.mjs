@@ -9,6 +9,9 @@
 const config = {
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ["cdn.discordapp.com"]
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
