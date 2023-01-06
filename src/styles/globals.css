@@ -4,4 +4,5 @@
 
 body {
   @apply bg-scRice;
+  @apply mx-auto max-w-screen-2xl;
 }
