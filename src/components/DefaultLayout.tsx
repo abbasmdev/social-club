@@ -11,6 +11,8 @@ const DefaultLayout: FC<{
   const { data: session } = useSession();
   const userName = session?.user?.name;
   const userImage = session?.user?.image;
+  console.log("a>", userImage);
+
   return (
     <div className="flex h-screen flex-col gap-6">
       <header className="flex flex-col gap-6 px-4 py-2">
